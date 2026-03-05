@@ -49,7 +49,6 @@ Modules disponibles :
                         export_pptx_outline, export_pdf,
                         export_libreoffice, export_libreoffice_native
   skill_tools         — skill_list, skill_read
-  web_search_tools    — web_search, web_search_news, web_search_engine
   ocr_tools           — ocr_image, ocr_pdf, ocr_pdf_detect,
                         ocr_languages
 
