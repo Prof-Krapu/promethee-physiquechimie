@@ -18,40 +18,6 @@ tools/ — Modules d'outils pour Prométhée
 Chaque sous-module expose un ensemble d'outils thématiques et s'enregistre
 automatiquement dans core.tools_engine lors de son import.
 
-Modules disponibles :
-
-  system_tools        — read_file, list_files, ...
-  python_tools        — python_eval, python_exec, python_install,
-                        python_run_script, python_list_packages,
-                        python_reset_env
-  data_tools          — datetime_now, json_formatter
-  data_file_tools     — df_read, df_list, df_head, df_info,
-                        df_value_counts, df_query, df_pivot,
-                        df_merge, df_write, df_drop
-  sql_tools           — sql_connect, sql_disconnect,
-                        sql_list_connections, sql_list_tables,
-                        sql_describe, sql_query, sql_execute,
-                        sql_explain, sql_export_csv
-  web_tools           — web_fetch, web_screenshot, web_extract,
-                        web_links, web_tables, web_rss,
-                        web_download_file,web_search,
-                        web_search_news, web_search_engine
-  legifrance_tools    — outils API PISTE/Légifrance
-  judilibre_tools     — outils API PISTE/Judilibre
-  thunderbird_tools   — tb_list_mails, tb_search_mails,
-                        tb_read_mail, tb_mark_mail, tb_move_mail,
-                        tb_create_draft, tb_agenda_upcoming,
-                        tb_agenda_search, tb_todo_list,
-                        tb_agenda_create, tb_agenda_update,
-                        tb_agenda_delete
-  export_tools        — export_md, export_docx, export_xlsx_json,
-                        export_xlsx_csv, export_pptx_json,
-                        export_pptx_outline, export_pdf,
-                        export_libreoffice, export_libreoffice_native
-  skill_tools         — skill_list, skill_read
-  ocr_tools           — ocr_image, ocr_pdf, ocr_pdf_detect,
-                        ocr_languages
-
 Pour activer tous les outils en une seule ligne :
     from tools import register_all
     register_all()
