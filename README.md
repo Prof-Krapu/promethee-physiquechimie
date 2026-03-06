@@ -77,15 +77,33 @@ Dans ce fichier `.env`, vous devez renseigner :
 - `OPENAI_BASE_URL` : L'URL du serveur (ex: `https://albert.api.etalab.gouv.fr/v1`).
 - `OPENROUTER_API_KEY` : Clé API OpenRouter pour le modèle de vision (nécessaire pour la correction de copies).
 
-### 4. Lancement du Bot
+### 4. Lancement (2 Modes Disponibles)
 
-Assurez-vous que l'environnement virtuel est activé, puis lancez le point d'entrée Telegram :
+L'application Physique-Chimie propose **deux interfaces indépendantes** selon vos besoins. Assurez-vous que l'environnement virtuel est toujours activé avant de lancer l'une d'elles.
+
+#### Option A : Lancer le Bot Telegram
+
+C'est l'interface principale de ce fork, idéale pour une utilisation mobile et l'envoi de photos de copies.
 
 ```bash
 python3 main_telegram.py
 ```
+*Le terminal affichera `Application started`. Le bot est maintenant à l'écoute de vos messages sur Telegram !*
 
-Le terminal affichera `Application started`. Le bot est maintenant à l'écoute de vos messages sur Telegram !
+#### Option B : Lancer l'Interface Scientifique Native (Windows, macOS, Linux)
+
+L'interface graphique d'origine (PyQt6) est toujours disponible et intègre toutes les améliorations Physique-Chimie (outils, génération de PDF, rendu LaTeX via KaTeX). Elle est idéale pour une utilisation sur grand écran ou avec le RAG local.
+
+Avant le tout premier lancement sous **Linux (Ubuntu/Debian)**, assurez-vous d'avoir les bibliothèques graphiques requises par Qt6 :
+```bash
+sudo apt install libxcb-cursor0 libgl1
+```
+*(Aucune action système n'est requise sous macOS).*
+
+Puis, lancez l'application :
+```bash
+python3 main.py
+```
 
 ---
 
