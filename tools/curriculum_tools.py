@@ -20,7 +20,7 @@ set_current_family("curriculum_tools", "Programmes (Eduscol)", "🎒")
 @tool(
     name="get_curriculum_guidelines",
     description="Récupère les grandes lignes directives, le programme officiel ou les capacités exigibles d'un niveau donné en Physique-Chimie (ex: 'Terminale Spécialité', 'PCSI', 'MPSI', 'Seconde'). "
-    "Très utile avant de rédiger un sujet d'examen ou un TP pour s'assurer qu'il respecte le Bulletin Officiel (B.O.).",
+    "Très utile avant de rédiger un exercice ou un TP pour s'assurer qu'il respecte le Bulletin Officiel (B.O.) publié sur Eduscol.",
     parameters={
         "type": "object",
         "properties": {
