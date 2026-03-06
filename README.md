@@ -120,5 +120,5 @@ python3 main.py
 *Consultez le fichier `README_IMPLEMENTATIONS.md` pour un détail complet de toutes les modifications techniques apportées par rapport au projet Prométhée original.*
 
 Licence : GNU Affero General Public License v3.0 (AGPL-3.0)
-Auteur de la surcouche Physique-Chimie : Prof-Krapu (2026)
+Auteur de la surcouche Physique-Chimie : Vincent Durieux, professeur agrégé de Chimie
 Auteur original : Pierre Couget
