@@ -68,3 +68,6 @@ data/qdrant_local/
 # ── Outputs générés par Prométhée ────────────────────────────
 exports/
 output/
+
+# ── Outils maison ────────────────────────────────────────────
+git_helper.py
