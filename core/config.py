@@ -58,7 +58,7 @@ class Config:
     APP_TITLE: str = os.getenv("APP_TITLE", "Prométhée AI")
     APP_USER: str = os.getenv("APP_USER", "Vous")
     HISTORY_DB: str = os.getenv("HISTORY_DB", "history.db")
-    MAX_CONTEXT_TOKENS: int = int(os.getenv("MAX_CONTEXT_TOKENS", ""))
+    MAX_CONTEXT_TOKENS: int = int(os.getenv("MAX_CONTEXT_TOKENS", "12000"))
 
     # Chiffrement de la base SQLite (AES-256-GCM, cle derivee via Scrypt)
     # DB_ENCRYPTION=ON  -> colonnes sensibles chiffrees (title, content, system_prompt, metadata)
