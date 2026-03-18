@@ -341,6 +341,22 @@ async def cmd_clear(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
+async def cmd_promethree(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Commande /promethree — présente les outils de génération d'exercices Prométhée."""
+    await update.message.reply_html(
+        "📝 <b>Prométhée — Générateur d'exercices</b>\n\n"
+        "Je peux générer des <b>exercices de Physique-Chimie</b> structurés "
+        "adaptés à votre niveau :\n\n"
+        "• <b>Exercice rédigé</b> avec énoncé, données et barème\n"
+        "  <i>Ex : « Génère un exercice de mécanique pour la terminale »</i>\n\n"
+        "• <b>Correction détaillée</b> avec calculs et unités\n"
+        "  <i>Ex : « Corrige cet exercice de titrage pour la MPSI »</i>\n\n"
+        "• <b>QCM</b> avec 4 propositions et correction intégrée\n"
+        "  <i>Ex : « Génère un QCM d'optique géométrique en seconde »</i>\n\n"
+        "Envoyez simplement votre demande en langage naturel 🚀"
+    )
+
+
 async def _call_agent(
     messages: list[dict],
     context: ContextTypes.DEFAULT_TYPE,
@@ -669,6 +685,7 @@ def main() -> None:
     application.add_handler(CommandHandler("start", cmd_start))
     application.add_handler(CommandHandler("help", cmd_help))
     application.add_handler(CommandHandler("clear", cmd_clear))
+    application.add_handler(CommandHandler("promethree", cmd_promethree))
 
     # Messages
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
