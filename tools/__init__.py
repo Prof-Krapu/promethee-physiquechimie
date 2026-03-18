@@ -62,8 +62,8 @@ def register_all() -> None:
     import tools.chemistry_tools
 
     # Programmes et évaluations
-    import tools.curriculum_tools
     import tools.lms_tools
+    import tools.promethree_tools
 
     # Modules spécifiques PISTE / Data.gouv
     import tools.legifrance_tools
