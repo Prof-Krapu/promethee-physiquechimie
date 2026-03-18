@@ -341,6 +341,16 @@ async def cmd_clear(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
+async def cmd_bonjour(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Commande /bonjour — répond par un message de bienvenue simple."""
+    user = update.effective_user
+    await update.message.reply_html(
+        rf"👋 Bonjour {user.mention_html()} !"
+        "\n\nJe suis <b>Prométhée</b>, votre assistant IA de Physique-Chimie."
+        "\nComment puis-je vous aider aujourd'hui ?",
+    )
+
+
 async def _call_agent(
     messages: list[dict],
     context: ContextTypes.DEFAULT_TYPE,
@@ -669,6 +679,7 @@ def main() -> None:
     application.add_handler(CommandHandler("start", cmd_start))
     application.add_handler(CommandHandler("help", cmd_help))
     application.add_handler(CommandHandler("clear", cmd_clear))
+    application.add_handler(CommandHandler("bonjour", cmd_bonjour))
 
     # Messages
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
