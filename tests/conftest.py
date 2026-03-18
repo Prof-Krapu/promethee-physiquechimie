@@ -15,6 +15,7 @@ os.environ.setdefault("EMBEDDING_MODEL", "test-model")
 os.environ.setdefault("EMBEDDING_DIMENSION", "4")
 os.environ.setdefault("OPENAI_API_KEY", "test-key")
 os.environ.setdefault("DB_ENCRYPTION", "OFF")
+os.environ.setdefault("MAX_CONTEXT_TOKENS", "128000")
 
 
 @pytest.fixture()

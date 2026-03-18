@@ -61,6 +61,9 @@ def register_all() -> None:
     import tools.physics_tools
     import tools.chemistry_tools
 
+    # Salutations
+    import tools.greeting_tools
+
     # Programmes et évaluations
     import tools.curriculum_tools
     import tools.lms_tools
