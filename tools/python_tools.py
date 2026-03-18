@@ -23,20 +23,24 @@ Outils exposés (5) :
   - python_list_packages : liste les packages installés dans l'environnement
   - python_reset_env     : réinitialise l'environnement virtuel
 
-python_eval a été supprimé et fusionné dans python_exec, qui gère maintenant
-aussi bien les expressions simples que le code complet avec imports.
+Fonctions utilitaires internes :
+  - _ast_check    : vérifie le code Python via AST pour détecter les patterns dangereux
+  - python_eval   : évalue du code Python simple et retourne le résultat sous forme de chaîne
 
 L'état est persistant entre les appels : les variables, imports et fonctions
 définis dans un appel sont disponibles dans les suivants (même session).
 Pour réinitialiser l'état de session, appelez python_exec avec reset_state=True.
 """
 
+import ast
 import base64
+import io
 import json
 import re
 import subprocess
 import sys
 import tempfile
+from contextlib import redirect_stdout
 from pathlib import Path
 
 from core.tools_engine import tool, set_current_family, _TOOL_ICONS
@@ -59,6 +63,79 @@ _TOOL_ICONS.update({
     "python_list_packages": "📋",
     "python_reset_env":     "♻️",
 })
+
+# ── Vérification AST ───────────────────────────────────────────────────────
+
+_FORBIDDEN_BUILTINS = frozenset({
+    "exec", "eval", "__import__", "getattr", "globals", "locals", "compile", "open",
+})
+_FORBIDDEN_ATTRS = frozenset({
+    "__dict__", "__class__", "__globals__", "__builtins__", "__code__", "__closure__",
+})
+
+
+def _ast_check(code: str) -> str | None:
+    """
+    Vérifie le code Python via AST pour détecter les patterns dangereux.
+
+    Retourne None si le code est sûr, ou un message d'erreur (str) sinon.
+    Bloque : imports, appels dangereux, attributs interdits, global/nonlocal.
+    """
+    try:
+        tree = ast.parse(code)
+    except SyntaxError as e:
+        return f"Erreur de syntaxe : {e}"
+
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Import, ast.ImportFrom)):
+            return "Code interdit : les imports ne sont pas autorisés"
+        if isinstance(node, ast.Global):
+            return "Code interdit : instruction 'global' non autorisée"
+        if isinstance(node, ast.Nonlocal):
+            return "Code interdit : instruction 'nonlocal' non autorisée"
+        if isinstance(node, ast.Call):
+            func = node.func
+            if isinstance(func, ast.Name) and func.id in _FORBIDDEN_BUILTINS:
+                return f"Code interdit : appel à '{func.id}' non autorisé"
+            if isinstance(func, ast.Attribute) and func.attr in _FORBIDDEN_BUILTINS:
+                return f"Code interdit : appel à '{func.attr}' non autorisé"
+        if isinstance(node, ast.Attribute) and node.attr in _FORBIDDEN_ATTRS:
+            return f"Code interdit : accès à l'attribut '{node.attr}' non autorisé"
+    return None
+
+
+def python_eval(code: str) -> str:
+    """
+    Évalue du code Python simple dans le processus courant et retourne le résultat
+    sous forme de chaîne. Bloque les patterns dangereux via _ast_check.
+
+    Contrairement à python_exec (qui utilise un venv isolé et retourne un dict),
+    python_eval est conçu pour des expressions et scripts courts ne nécessitant
+    pas d'imports ni d'état persistant.
+
+    Avertissement de sécurité : _ast_check réduit considérablement la surface
+    d'attaque (imports, builtins dangereux, attributs interdits), mais ne protège
+    pas contre la consommation excessive de ressources (boucles infinies, mémoire).
+    À utiliser uniquement pour des expressions simples provenant de sources fiables.
+    Pour exécuter du code arbitraire, préférer python_exec (subprocess isolé).
+    """
+    error = _ast_check(code)
+    if error is not None:
+        return f"Erreur : {error}"
+
+    buf = io.StringIO()
+    try:
+        with redirect_stdout(buf):
+            try:
+                result = eval(compile(code, "<string>", "eval"))  # noqa: S307
+            except SyntaxError:
+                exec(compile(code, "<string>", "exec"))  # noqa: S102
+                return buf.getvalue().rstrip("\n") or ""
+            if result is not None:
+                return str(result)
+            return buf.getvalue().rstrip("\n") or ""
+    except Exception as e:
+        return f"Erreur : {type(e).__name__}: {e}"
 
 
 # ── Gestion de l'environnement virtuel ─────────────────────────────────────

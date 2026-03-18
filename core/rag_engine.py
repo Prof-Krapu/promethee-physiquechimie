@@ -422,6 +422,7 @@ def _make_scope_filter(conversation_id: str = None):
 
     Retourne None si aucun filtre ne doit être appliqué (collections externes).
     """
+    from qdrant_client.models import Filter, FieldCondition, MatchValue  # noqa: PLC0415
     global_cond = FieldCondition(key="conversation_id", match=MatchValue(value="global"))
     if not conversation_id:
         return Filter(must=[global_cond])
